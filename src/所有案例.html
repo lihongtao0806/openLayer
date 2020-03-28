@@ -1,0 +1,276 @@
+<!-- 
+ 对地图进行基本操作
+ -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <title>对地图进行基本的操作</title>
+     <script src="js/ol.js" type="text/javascript" charset="utf-8"></script>
+  
+     <!-- jQuery相关 -->
+     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+         <!-- 字体相关 -->
+     <link href="public/css/ol.css" rel="stylesheet" type="text/css" />
+     <link rel="stylesheet" type="text/css" href="public/css/iconfont.css" />
+     <style>
+         .map {
+             height: calc(100vh);
+             width: 100%;
+             }
+             #menu{
+                 float:left;
+                 position:absolute;
+                 bottom:10px;z-index: 2000;
+             }
+             .tooltip-inner{
+                 white-space:nowrap
+             }
+             #mouse-position{
+                 float:left;
+                 position:absolute;
+                 bottom:55px;
+                 width:200px;
+                 height:20px;
+                 z-index: 2000;
+                 margin-left:200px;
+                 /* border:1px solid red; */
+             }
+     /*鼠标位置信息的自定义样式  */
+     .custom-mouse-position{
+         color:red;
+         font-size:16px;
+         font-family: '微软黑'
+     }
+     /* 鹰眼样式 */
+    .ol-custom-overviewmap,
+			.ol-custom-overviewmap-map.ol-uncollapsible {
+				left: auto;
+				right: 0;
+				top: 0;
+				height: 150px;
+			}
+			
+			.ol-custom-overviewmap:not(.ol-collapsed) {
+				border: 1px solid black;
+				height: 155px;
+			}
+			
+			.ol-custom-overviewmap .ol-overviewmap {
+				border: none;
+				width: 300px;
+			}
+			
+			.ol-custom-overviewmap .ol-overviewmap-box {
+				border: 2px solid red;
+			}
+			
+			.ol-custom-overviewmap:not(.ol-collapsed) button {
+				bottom: auto;
+				left: auto;
+				right: 1px;
+				top: 1px;
+			}
+ 
+     </style>
+    
+ </head>
+ <body>
+ <div id="map" class='map'>
+        <div id='mouse-position'></div>  
+     <!-- 设置按钮 -->
+     <div id="menu">
+         <button id='zoom-out'>单击缩小</button>
+         <button id='zoom-in'>单击放大</button>
+         <button id='panto'>平移到武汉</button>
+         <button id='restore'>复位</button>
+     </div>
+ </div>
+ <script type="text/javascript">
+    // 全屏
+    let FullScreen=new ol.control.FullScreen(); //加载全屏展示控件
+ //鹰眼
+var overviewMapControl = new ol.control.OverviewMap({
+				className: 'ol-overviewmap ol-custom-overviewmap',
+				layers: [
+					new ol.layer.Tile({
+						source: new ol.source.OSM({
+							'url': 'http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png'
+						})
+					})
+				],
+				collapseLabel: '\u00BB',
+				label: '\u00AB',
+				collapsed: false
+			});
+  //实例化比例尺控件
+  var scaleLineControl = new ol.control.ScaleLine({
+                //设置度量单位为米
+                units: 'metric',
+                target: 'scalebar',
+                className: 'ol-scale-line'
+            });
+   // 加载鼠标位置   
+   var mousePositionControl = new ol.control.MousePosition({   
+            coordinateFormat: ol.coordinate.createStringXY(4),      // 将坐标保留4位小数位，并转换为字符串
+            projection: 'EPSG:4326',                                // 定义投影
+            className: 'custom-mouse-position',                     // 控件的CSS类名
+            target: document.getElementById('mouse-position'),      // 将控件渲染在该DOM元素中
+            undefinedHTML: '&nbsp;'                                 // 鼠标离开地图时，显示空格
+        });
+          var map, hengjiang, ditu, shiliangtu, yingxiangtu, layers = [];
+             hengjiang = new ol.proj.fromLonLat([121.063624, 31.11647]);
+             ditu = new ol.layer.Tile({
+                 source: new ol.source.XYZ({
+                     url: 'http://t{0-7}.tianditu.gov.cn/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=53ed32eb4b23c6607c2f1d8616ecf217',
+                 })
+             });
+             shiliangtu = new ol.layer.Tile({
+                 source: new ol.source.XYZ({
+                     url: 'http://t{0-7}.tianditu.gov.cn/DataServer?T=cta_w&x={x}&y={y}&l={z}&tk=53ed32eb4b23c6607c2f1d8616ecf217',
+                 })
+             });
+             yingxiangtu = new ol.layer.Tile({
+                 source: new ol.source.XYZ({
+                     url: 'http://t{0-7}.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=53ed32eb4b23c6607c2f1d8616ecf217',
+                 })
+             });
+         
+          
+             // 地图的三要素  1:target  2:layers  3:view
+             map = new ol.Map({
+                 //这个target对应一个div的id
+                 target: 'map',
+                 layers: [
+                     //天地图底图
+                     ditu,
+                     //天地图数据源
+                     shiliangtu
+                 ],
+                // layers: [
+            //加载瓦片图层数据
+            // new ol.layer.Tile({
+            //     source: new ol.source.OSM(),
+            //     name: '世界地图(OSM瓦片)'
+            // }),
+        // ],
+
+                 view: new ol.View({
+                     //地图中心点
+                     center: hengjiang,//也可以[121.063624, 31.11647]
+                     //缩放级别
+                     zoom: 11,
+                     // //地图缩放最小级别
+                      minZoom: 5,
+                     // //地图缩放最大级别
+                      maxZoom: 16,
+                      rotation:Math.PI/6  //设置旋转角度
+                 }),
+                 controls: ol.control.defaults().extend([mousePositionControl,scaleLineControl,overviewMapControl,FullScreen]),
+             });
+
+        //   、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、
+         //  实例化ZoomSlider
+            var  zoomslider=new ol.control.ZoomSlider();
+                 map.addControl(zoomslider)
+            // 实例化zoomToExtent控件并加载到地图容器中
+            var zoomToExtent=new ol.control.ZoomToExtent({
+                extent:[13100000,4290000,
+                13200000,5210000
+                ]
+            })
+            map.addControl(zoomToExtent)
+            //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' 对地图进行操作
+            // 地图视图的初始参数
+            var view=map.getView();
+            var zoom=view.getZoom();
+            var center=view.getCenter();
+            var rotation=view.getRotation();
+            // 实现按钮单击缩小按钮的功能
+            document.getElementById('zoom-out').onclick=function(){
+                var view=map.getView(); //获取地图视图
+                var zoom=view.getZoom(); //获取当前缩放级数
+                view.setZoom(zoom-1) //地图缩放一级
+            }
+            // 点击扩大一级
+            document.getElementById('zoom-in').onclick=function(){
+                var view=map.getView(); //获取地图视图
+                var zoom=view.getZoom(); //获取当前缩放级数
+                view.setZoom(zoom+1) //地图缩放一级
+            }
+            // 平移地图
+            document.getElementById('panto').onclick=function(){
+                var view=map.getView(); //获取地图视图
+                var wh=ol.proj.fromLonLat([120.51001,30.40266]); //
+                view.setCenter(wh) //平移地图
+            }
+            // 复位
+            document.getElementById('restore').onclick=function(){
+               view.setCenter(center); //初始中心点
+                view.setRotation(rotation); //初始旋转角度
+                view.setZoom(zoom) //初始化级数
+            }
+            // 图层探查
+            var key= "AuUKioHoVzV-16Ep0yv6ay21ixWZ5OZ7jDs-k7g03fiUMbN6GSH97IpRcQ_s_s3-";
+        var BingMapRoad=new ol.layer.Tile({
+            source: new ol.source.BingMaps({
+                key:key,
+                imagerySet: 'Road'
+            }),
+            name:'BingMap的道路图层'
+        });
+        var BingMapAerial=new ol.layer.Tile({
+            source: new ol.source.BingMaps({
+                key:key,
+                imagerySet: 'Aerial'
+            }),
+            name:'BingMap的影像图层'
+        });
+        map.addLayer(BingMapAerial);
+        map.addLayer(BingMapRoad);
+        //结合jQuery插件的方法，实现对图层的裁剪
+        var radius=75;//圆半径
+        //用keydown事件实现在键盘上通过up和down按键改变圆的半径
+        $(document).keydown(function(evt){
+            if(evt.which===38){
+                radius=Math.min(radius+5,150);//按up，半径扩大5px
+                map.render();//渲染地图
+            }else if(evt.which===40){
+                radius=Math.max(radius-5,25);
+                map.render();
+            }
+        });
+        var mousePosition=null;
+        $(map.getViewport()).on("mousemove",function(evt){
+            mousePosition=map.getEventPixel(evt.originalEvent);//获得当前鼠标的位置
+            map.render();
+        }).on("mouseout",function(){
+            mousePosition=null;
+            map.render();
+        });
+        BingMapRoad.on("precompose",function(event){
+            var ctx=event.context;//影像图层画布
+            var pixelRatio=event.frameState.pixelRatio;//像素比
+            ctx.save();
+            ctx.beginPath();
+            if(mousePosition){
+                ctx.arc(mousePosition[0]*pixelRatio,mousePosition[1]*pixelRatio,radius*pixelRatio,0,2*Math.PI);//设置画布区为一个圆
+                ctx.lineWidth=5*pixelRatio;
+                ctx.strokeStyle='rgba(0,0,0,0.5)';
+                ctx.stroke();
+            }
+            ctx.clip();//裁剪画布
+        })
+        BingMapRoad.on("postcompose",function(event){
+            var ctx=event.context;
+            ctx.restore();//还原画布
+        })
+           
+ </script>
+    
+    
+ 
+ </body>
+ </html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Promise</title>
+</head>
+<body>
+   <script>
+//     const p1 = new Promise(function (resolve, reject) {
+//   // ...
+// });
+
+// const p2 = new Promise(function (resolve, reject) {
+//   // ...
+//   resolve(p1);
+// })
+// let promise = new Promise(function(resolve, reject) {
+//   console.log('Promise');
+// //   resolve();
+// });
+
+// promise.then(function() {
+//   console.log('resolved.');
+// });
+
+// console.log('Hi!');
+// const p1 = new Promise(function (resolve, reject) {
+//   setTimeout(() => reject(new Error('fail')), 3000)
+// })
+
+// const p2 = new Promise(function (resolve, reject) {
+//   setTimeout(() => resolve(p1), 1000)
+// })
+
+// p2.then(result => console.log(result))
+//   .catch(error => console.log(error))
+
+
+// new Promise((resolve, reject) => {
+//  return resolve(1);
+//   console.log(2);
+// }).then(r => {
+//   console.log(r);
+// });
+
+// const promise = new Promise(function (resolve, reject) {
+//   resolve('ok');
+//   setTimeout(function () { throw new Error('test') }, 0)
+// });
+//  promise.then(function (value) { console.log(value) });
+
+
+//  const promise=new Promise(function (resolve,reject){
+
+//  })
+let p = new Promise(function(resolve, reject){
+		//做一些异步操作
+		setTimeout(function(){
+			console.log('执行完成Promise');
+			resolve('要返回的数据可以任何数据例如接口返回数据');
+		}, 2000);
+	})
+
+    </script> 
+</body>
+</html>

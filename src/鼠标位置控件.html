@@ -1,0 +1,117 @@
+<!-- 
+ 鼠标位置控件
+ -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <title>Document</title>
+     <script src="js/ol.js" type="text/javascript" charset="utf-8"></script>
+  
+     <!-- jQuery相关 -->
+     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+         <!-- 字体相关 -->
+     <link href="public/css/ol.css" rel="stylesheet" type="text/css" />
+     <link rel="stylesheet" type="text/css" href="public/css/iconfont.css" />
+     <style>
+     .map {
+             height: calc(100vh);
+             width: 100%;
+             }
+             #mouse-position{
+                 float:left;
+                 position:absolute;
+                 bottom:5px;
+                 width:200px;
+                 height:20px;
+                 z-index: 2000;
+                 border:1px solid red;
+             }
+     /*鼠标位置信息的自定义样式  */
+     .custom-mouse-position{
+         color:red;
+         font-size:16px;
+         font-family: '微软黑'
+     }
+     </style>
+    
+ </head>
+ <body>
+ <div id="map" class='map'>
+
+    <div id='mouse-position'></div>  
+ </div>
+ <script type="text/javascript">
+    // 加载鼠标位置   
+    var mousePositionControl = new ol.control.MousePosition({   
+            coordinateFormat: ol.coordinate.createStringXY(4),      // 将坐标保留4位小数位，并转换为字符串
+            projection: 'EPSG:4326',                                // 定义投影
+            className: 'custom-mouse-position',                     // 控件的CSS类名
+            target: document.getElementById('mouse-position'),      // 将控件渲染在该DOM元素中
+            undefinedHTML: '&nbsp;'                                 // 鼠标离开地图时，显示空格
+        });
+          var map, hengjiang, ditu, shiliangtu, yingxiangtu, layers = [];
+             hengjiang = new ol.proj.fromLonLat([121.063624, 31.11647]);
+             ditu = new ol.layer.Tile({
+                 source: new ol.source.XYZ({
+                     url: 'http://t{0-7}.tianditu.gov.cn/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=53ed32eb4b23c6607c2f1d8616ecf217',
+                 })
+             });
+             shiliangtu = new ol.layer.Tile({
+                 source: new ol.source.XYZ({
+                     url: 'http://t{0-7}.tianditu.gov.cn/DataServer?T=cta_w&x={x}&y={y}&l={z}&tk=53ed32eb4b23c6607c2f1d8616ecf217',
+                 })
+             });
+             yingxiangtu = new ol.layer.Tile({
+                 source: new ol.source.XYZ({
+                     url: 'http://t{0-7}.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=53ed32eb4b23c6607c2f1d8616ecf217',
+                 })
+             });
+         
+          
+             // 地图的三要素  1:target  2:layers  3:view
+             map = new ol.Map({
+                 //这个target对应一个div的id
+                 target: 'map',
+                 layers: [
+                     //天地图底图
+                     ditu,
+                     //天地图数据源
+                     shiliangtu
+                 ],
+                 view: new ol.View({
+                     //地图中心点
+                     center: hengjiang,//也可以[121.063624, 31.11647]
+                     //缩放级别
+                     zoom: 11,
+                     // //地图缩放最小级别
+                      minZoom: 5,
+                     // //地图缩放最大级别
+                      maxZoom: 16
+                 }),
+                 controls: ol.control.defaults().extend([mousePositionControl]),
+             });
+
+        //   、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、
+         //  实例化ZoomSlider
+            var  zoomslider=new ol.control.ZoomSlider();
+                 map.addControl(zoomslider)
+            // 实例化zoomToExtent控件并加载到地图容器中
+            var zoomToExtent=new ol.control.ZoomToExtent({
+                extent:[13100000,4290000,
+                13200000,5210000
+                ]
+            })
+            map.addControl(zoomToExtent)
+            // 、、、、、、、、、、、、、、、、、、、、、、、、、、、
+              // 创建MousePosition控件
+     
+ 
+ </script>
+    
+    
+ 
+ </body>
+ </html>

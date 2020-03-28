@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>矢量地图</title>
+    <script src="js/ol.js" type="text/javascript" charset="utf-8"></script>
+  
+    <!-- jQuery相关 -->
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+        <!-- 字体相关 -->
+    <link href="public/css/ol.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="public/css/iconfont.css" />
+</head>
+<body>
+  
+    <div id="map" style="width: 100%"></div>
+<script type="text/javascript">
+  /*
+    
+   1  加载矢量图使用的source是ol.source.Vector, layer是ol.layer.Vector，不要错误的使用。
+   2 加载代码之所以这么简单，是因为OpenLayers 3内置了对应矢量地图格式的解析类，比如ol.format.GeoJSON。 它们都位于包ol.format下面，可以在API官方文档中查询得到。 如果是shapefile这种不支持的，则需要自己解析。 解析后，矢量地图都会转换为对应于OpenLayer s 3中的feature。 所以，当加载完成后，可以通过source的getFeatures方法来获取所有的矢量图形。
+   3 需要注意坐标系，因为.geojson文档里用的是和当前地图用的不一样的坐标系。
+    */
+    //创建地图
+    var map = new ol.Map({
+        layers: [
+            // 底图用Open Street Map 地图
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            }),
+            // 再加载一个geojson的矢量地图
+            new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    url: '../data/geojson/line-samples.geojson',     // 地图来源
+                    format: new ol.format.GeoJSON()    // 解析矢量地图的格式化类
+                })
+            })
+        ],
+        view: new ol.View({ 
+            center: [-72.980624870461128, 48.161307640513321],
+            zoom: 8,
+            projection: 'EPSG:4326'
+        }),
+        target: 'map'
+    });
+</script>
+</body>
+</html>

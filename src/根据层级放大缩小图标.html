@@ -1,0 +1,70 @@
+<!-- 
+ 缩放控件
+ -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <title>Document</title>
+     <script src="js/ol.js" type="text/javascript" charset="utf-8"></script>
+  
+     <!-- jQuery相关 -->
+     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+         <!-- 字体相关 -->
+     <link href="public/css/ol.css" rel="stylesheet" type="text/css" />
+     <link rel="stylesheet" type="text/css" href="public/css/iconfont.css" />
+     <style>
+     .map {
+             height: calc(100vh);
+             width: 100%;
+             }
+ 
+     </style>
+    
+ </head>
+ <body>
+        <div id="map" style="width: 100%"></div>
+        <script type="text/javascript">
+        // 添加矢量图
+          var layer = new ol.layer.Vector({
+            source: new ol.source.Vector()
+          })
+          var map = new ol.Map({
+            layers: [
+              new ol.layer.Tile({
+                source: new ol.source.OSM()
+              }), 
+              layer
+            ],
+            target: 'map',
+            view: new ol.View({
+              projection: 'EPSG:4326',
+              center: [104, 30],
+              zoom: 10
+            })
+          });
+        
+          var anchor = new ol.Feature({
+            geometry: new ol.geom.Point([104, 30])
+          });
+          anchor.setStyle(new ol.style.Style({
+            image: new ol.style.Icon({
+              src: 'img/开闸开泵1.png'
+            })
+          }));
+          layer.getSource().addFeature(anchor);
+        
+          // 监听地图层级变化
+          map.getView().on('change:resolution', function(){
+              var style = anchor.getStyle();
+              // 重新设置图标的缩放率，基于层级10来做缩放
+              style.getImage().setScale(this.getZoom() / 10);
+              anchor.setStyle(style);
+          })
+        </script>
+    
+ 
+ </body>
+ </html>

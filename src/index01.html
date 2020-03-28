@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>Bootstrap 实例 - 一个简单的网页</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- <link rel="stylesheet" href="lib/全屏控件.html"> -->
+	<style>
+    .fakeimg {
+        height: 200px;
+        background: #aaa;
+    }
+  </style>
+</head>
+<body>
+<div class="jumbotron text-center" style="margin-bottom:0">
+  <h1>我的第一个 openLayer 页面</h1>
+</div>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar">1</span>
+        <span class="icon-bar">2</span>
+        <span class="icon-bar">3</span>                        
+      </button>
+      <a class="navbar-brand" href="#">OpenLayers</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">主页</a></li>
+        <li><a href="lib/全屏控件.html" target="targetText">页面 2</a></li>
+        <li><a href="lib图层叠加及管理.html" target="targetText">页面 3</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- 内容部分 -->
+<div class="container">
+  <div class="row">
+        <iframe src="lib/全屏控件.html" id='my_iframe' style="float: left" name="targetText"></iframe>
+        <iframe src="lib/图层叠加及管理.html" id='my_iframe' style="float: left" name="targetText"></iframe>
+      <!-- <body>
+              <div style="float: left" >
+                  <ul>
+                      <li><a href="demo.html" target="targetText">deno</a></li>
+                      <li><a href="http://www.baidu.com" target="targetText">baidu</a></li>
+                  </ul>
+              </div>
+              <iframe src="demo.html"  style="float: left" name="targetText"></iframe>
+          </body> -->
+         
+    <!-- <div class="col-sm-4">
+      <h2>关于我</h2>
+      <h5>我的照片:</h5>
+      <div class="fakeimg">这边插入图像</div>
+      <p>关于我的介绍..</p>
+      <h3>链接</h3>
+      <p>描述文本。</p>
+      <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a href="#">链接 1</a></li>
+        <li><a href="#">链接 2</a></li>
+        <li><a href="#">链接 3</a></li>
+      </ul>
+      <hr class="hidden-sm hidden-md hidden-lg">
+    </div>
+    <div class="col-sm-8">
+      <h2>标题</h2>
+      <h5>副标题</h5>
+      <div class="fakeimg">图像</div>
+      <p>一些文本..</p>
+      <p>dddddddd</p>
+      <br>
+      <h2>标题</h2>
+      <h5>副标题</h5>
+      <div class="fakeimg">图像</div>
+      <p>一些文本..</p>
+      <p>dddddddddd</p>
+    </div>
+  </div> -->
+</div>
+<!-- 底部部分 -->
+<div class="jumbotron text-center" style="margin-bottom:0">
+  <p>普适导航科技股份有限公司</p>
+</div>
+
+  <script type="text/javascript">
+        function changeFrameHeight(){
+            var iframe= document.getElementById("my_iframe");
+            iframe.height= 0;   //这里必须要先设置成0，不然后面会有问题
+            iframe.height=iframe.contentWindow.document.body.scrollHeight;
+        }
+
+        //监听浏览器窗口变换，这里采用jquery，不然在ie中会出现问题
+        $(window).resize(function() { 
+            changeFrameHeight();
+        });
+</script>
+</body>
+</html>

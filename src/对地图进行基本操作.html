@@ -1,0 +1,135 @@
+<!-- 
+ 对地图进行基本操作
+ -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <title>对地图进行基本的操作</title>
+     <script src="js/ol.js" type="text/javascript" charset="utf-8"></script>
+  
+     <!-- jQuery相关 -->
+     <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+         <!-- 字体相关 -->
+     <link href="public/css/ol.css" rel="stylesheet" type="text/css" />
+     <link rel="stylesheet" type="text/css" href="public/css/iconfont.css" />
+     <style>
+         .map {
+             height: calc(100vh);
+             width: 100%;
+             }
+             #menu{
+                 float:left;
+                 position:absolute;
+                 bottom:10px;z-index: 2000;
+             }
+             .tooltip-inner{
+                 white-space:nowrap
+             }
+ 
+     </style>
+    
+ </head>
+ <body>
+ <div id="map" class='map'>
+     <!-- 设置按钮 -->
+     <div id="menu">
+         <button id='zoom-out'>单击缩小</button>
+         <button id='zoom-in'>单击放大</button>
+         <button id='panto'>平移到武汉</button>
+         <button id='restore'>复位</button>
+     </div>
+ </div>
+ <script type="text/javascript">
+          var map, hengjiang, ditu, shiliangtu, yingxiangtu, layers = [];
+             hengjiang = new ol.proj.fromLonLat([121.063624, 31.11647]);
+             ditu = new ol.layer.Tile({
+                 source: new ol.source.XYZ({
+                     url: 'http://t{0-7}.tianditu.gov.cn/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=53ed32eb4b23c6607c2f1d8616ecf217',
+                 })
+             });
+             shiliangtu = new ol.layer.Tile({
+                 source: new ol.source.XYZ({
+                     url: 'http://t{0-7}.tianditu.gov.cn/DataServer?T=cta_w&x={x}&y={y}&l={z}&tk=53ed32eb4b23c6607c2f1d8616ecf217',
+                 })
+             });
+             yingxiangtu = new ol.layer.Tile({
+                 source: new ol.source.XYZ({
+                     url: 'http://t{0-7}.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=53ed32eb4b23c6607c2f1d8616ecf217',
+                 })
+             });
+         
+          
+             // 地图的三要素  1:target  2:layers  3:view
+             map = new ol.Map({
+                 //这个target对应一个div的id
+                 target: 'map',
+                 layers: [
+                     //天地图底图
+                     ditu,
+                     //天地图数据源
+                     shiliangtu
+                 ],
+                 view: new ol.View({
+                     //地图中心点
+                     center: hengjiang,//也可以[121.063624, 31.11647]
+                     //缩放级别
+                     zoom: 11,
+                     // //地图缩放最小级别
+                      minZoom: 5,
+                     // //地图缩放最大级别
+                      maxZoom: 16,
+                      rotation:Math.PI/6  //设置旋转角度
+                 })
+             });
+
+        //   、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、
+         //  实例化ZoomSlider
+            var  zoomslider=new ol.control.ZoomSlider();
+                 map.addControl(zoomslider)
+            // 实例化zoomToExtent控件并加载到地图容器中
+            var zoomToExtent=new ol.control.ZoomToExtent({
+                extent:[13100000,4290000,
+                13200000,5210000
+                ]
+            })
+            map.addControl(zoomToExtent)
+            //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' 对地图进行操作
+            // 地图视图的初始参数
+            var view=map.getView();
+            var zoom=view.getZoom();
+            var center=view.getCenter();
+            var rotation=view.getRotation();
+            // 实现按钮单击缩小按钮的功能
+            document.getElementById('zoom-out').onclick=function(){
+                var view=map.getView(); //获取地图视图
+                var zoom=view.getZoom(); //获取当前缩放级数
+                view.setZoom(zoom-1) //地图缩放一级
+            }
+            // 点击扩大一级
+            document.getElementById('zoom-in').onclick=function(){
+                var view=map.getView(); //获取地图视图
+                var zoom=view.getZoom(); //获取当前缩放级数
+                view.setZoom(zoom+1) //地图缩放一级
+            }
+            // 平移地图
+            document.getElementById('panto').onclick=function(){
+                var view=map.getView(); //获取地图视图
+                var wh=ol.proj.fromLonLat([120.51001,30.40266]); //
+                view.setCenter(wh) //平移地图
+            }
+            // 复位
+            document.getElementById('restore').onclick=function(){
+               view.setCenter(center); //初始中心点
+                view.setRotation(rotation); //初始旋转角度
+                view.setZoom(zoom) //初始化级数
+            }
+           
+ </script>
+    
+    
+ 
+ </body>
+ </html>

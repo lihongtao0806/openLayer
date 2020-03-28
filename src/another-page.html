@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!-- <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href='../node_modules/bootstrap/dist/css/bootstrap.min.css'> -->
+
+
+
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+   
+    <title>OpenLayers</title>
+    <style>
+    .container1{
+      /* height:500px; */
+      width:100%;
+      position:absolute;
+      margin-top:25px;
+      right:5px;
+    }
+    .cursor{
+      cursor:pointer;
+    }
+    .firstTitle{
+      color:black;
+      font-size:18px;
+      font-weight:700;
+    }
+    .firstTitle:hover{
+      color:black;
+    }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="./main.html">OpenLayers</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarCollapse"
+          aria-controls="navbarCollapse"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <!-- <a class="nav-link" href="./index.html">首页</a> -->
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="./another-page.html">首页 <span class="sr-only">(current)</span></a>
+            </li>
+            <!-- <li class="nav-item active">
+                <a class="nav-link" href="./other.html">系统设置 <span class="sr-only">(current)</span></a>
+              </li> -->
+          </ul>
+          <form class="form-inline mt-2 mt-md-0">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+           
+               <a class="nav-link" href="index.html">   退出登录</a>
+            </button>
+          </form>
+        </div>
+      </nav>
+    
+    </header>
+    <div class="container1" id='main-nav'>
+
+      <div class="row">
+        <div class="col-md-2">
+            <div id="accordion">
+                <div class="card">
+                  <div class="card-header">
+                    <a class="card-link firstTitle"  data-toggle="collapse" href="#collapseOne">
+                        
+                        控件部分
+                    </a>
+                  </div>
+                  <div >
+                        <ul id="collapseOne" class="collapse show" data-parent="#accordion">
+                            <li  class="list-group-item cursor" data-src="地图的三要素.html">地图的三要素</li>
+                            <li  class="list-group-item cursor" data-src="全屏控件.html">全屏控件</li>
+                            <li  class="list-group-item cursor" data-src="鼠标位置控件.html">鼠标位置控件</li>
+                            <li  class="list-group-item cursor" data-src="鹰眼控件.html">鹰眼控件</li>
+                            <li  class="list-group-item cursor" data-src="比例尺控件.html">比例尺控件</li> 
+                            <li  class="list-group-item cursor" data-src="缩放控件.html">缩放控件</li>
+                            <li  class="list-group-item cursor" data-src="图层探查控件.html">图层探查控件</li>
+                            <li  class="list-group-item cursor" data-src="地图范围.html">地图范围</li>
+                            <li  class="list-group-item cursor" data-src="地图联动.html">地图联动</li>
+                      </ul>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <a class="collapsed card-link firstTitle" data-toggle="collapse" href="#collapseTwo">
+                        功能部分
+                  </a>
+                  </div>
+                  <div >
+                 
+                        <ul  id="collapseTwo" class="collapse" data-parent="#accordion">
+                            <li  class="list-group-item cursor" data-src="加载瓦片.html">加载瓦片</li>
+                            <li  class="list-group-item cursor" data-src="对地图进行基本操作.html">对地图进行基本操作</li>
+                            <li  class="list-group-item cursor" data-src="图层叠加及管理.html">图层叠加及管理</li>
+                            <li  class="list-group-item cursor" data-src="根据层级放大缩小图标.html">根据层级放大缩小图标</li>
+                            <li  class="list-group-item cursor" data-src="测量功能.html">测量距离面积</li>
+                           </ul>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <a class="collapsed card-link firstTitle" data-toggle="collapse" href="#collapseThree">
+                      地图标注
+                    </a>
+                  </div>
+                  <div id="collapseThree" class="collapse" data-parent="#accordion">
+                      <li  class="list-group-item cursor" data-src="测量功能.html">测量距离面积</li>
+                  </div>
+                </div>
+                </div>
+        </div>
+        <div class="col-md-10">
+                <div class="main_right">
+                        <iframe frameborder="0" scrolling="yes" id='test' style="width:100%;" src="所有案例.html" id="aa"></iframe>
+                </div>
+        </div>
+        </div>
+        </div> 
+</div>
+    </div>
+    <script>
+        $(function(){
+           $("#accordion li").on("click",function(){
+               var address =$(this).attr("data-src");
+               $("iframe").attr("src",address);
+           });
+
+             // 获取屏幕的高度
+     window.onload=function  autodivheight(){ //函数：获取尺寸
+       //获取浏览器窗口高度
+       var winHeight=0;
+       if (window.innerHeight){
+       winHeight = window.innerHeight;
+       }else if ((document.body) && (document.body.clientHeight)){
+       winHeight = document.body.clientHeight;
+       }
+       //通过深入Document内部对body进行检测，获取浏览器窗口高度
+       if (document.documentElement && document.documentElement.clientHeight){
+       winHeight = document.documentElement.clientHeight;
+       }
+       document.getElementById("test").style.height= winHeight-130 +'px' ;
+       document.getElementById("main-nav").style.height= winHeight-90 +'px' ;
+       }
+
+
+
+
+  
+
+
+       });
+     
+       </script>
+  </body>
+</html>

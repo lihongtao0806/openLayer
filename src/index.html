@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>OpenLayers</title>
+    <!-- <link rel="stylesheet" href="lib/bootstrap3/css/bootstrap.min.css"> -->
+    <!-- <script src='lib/bootstrap3/js/bootstrap.min.js'></script> -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <style>
+        body{
+   background:url('public/images/global.jpg')  no-repeat center center;
+   background-size:cover;
+   background-attachment:fixed;
+   background-color:#CCCCCC;
+}
+.box{
+    width:90%;
+    height:100%;
+    /* background-color:gray; */
+    /* border:1px solid red; */
+    margin:0 auto;
+    margin-top:15px;
+}
+.left{
+    width:200px;
+    height:750px;
+    background-color:#F0FFFF;
+    margin-left:10px;
+    float:left;
+    /* padding-top:3%; */
+    
+    border-radius:5px;
+
+}
+.middle{
+    float:left;
+    height:750px;
+    width:36%;
+    background:url(images/map1.png)  no-repeat center center;
+    margin-left:8%;
+    
+
+}
+.right{
+    float:right;
+    height:750px;
+    width:36%;
+    margin-right:10px;
+    background:url(images/1.jpg)  no-repeat center center;
+    margin-left:5%;
+}
+.btn-block+.btn-block{
+    margin-top:80px !important;
+    width:160px;
+    margin-left:20px;
+}
+.btn-block{
+    width:82%;
+    margin-left:18px;
+}
+/* .nav{
+    height:75px;
+    width:100%;
+    background-color: #1874CD;
+    opacity: 0.5;
+} */
+/* .header{
+			height: 60px;
+			background: rgba(58,154,220, 0.8);
+			text-align: center;
+		} */
+		/* .city{
+			font-family: "STLiti";
+			font-size: 40px;
+			color: #f56117;
+		} */
+		/* .system{
+			font-family:"SimHei";
+			color:white;
+			font-size: 22px;
+        } */
+
+
+        .center_login{
+            /* margin:0 auto; */
+            top:50%;
+            left:50%;
+            position:absolute;
+            transform: translate(-50%,-50%)
+        }
+        #password{
+           display:block;
+           width:300px;
+           height:40px;
+           margin-top:10px;
+           background-color:#e8e8e8;
+           border-radius:5px;
+        }
+        #username{
+        display:block;
+           width:300px;
+           height:40px;
+           margin-top:10px;
+           background-color:#e8e8e8;
+           border-radius:5px;
+        }
+        .login{
+            display:block;
+           width:300px;
+           height:40px;
+           margin-top:10px;
+           background-color:rgb(24,144,255);
+           color:#ffffff;
+           border-radius:5px;
+
+        }
+        /* 这是跳出提示信息的样式 */
+        .alert{
+            width:160px;
+            /* height:45px; */
+            /* line-height:45px; */
+            position:absolute;
+            top:10%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            text-align: center;
+            font-size:18px;
+            
+        }
+    </style>
+</head>
+<body>
+  <div class="cover_box">
+    
+          <div class="center_login">
+            <input type="text" id='username' >
+            <input type="password" id='password'>
+            <button class='login'  onClick='login()'>登录</button>
+          </div>
+         <div class="alert"></div>   
+  </div>
+  <script>
+     
+   
+//   登录事件
+function login(){
+    let password=document.getElementById('password').value
+    let username=document.getElementById('username').value
+  
+if(username=='ps' && password==123456){
+    window.location.href='another-page.html'
+} else {
+  if(password==''){
+    $('.alert').html('密码不能为空!').addClass('alert-danger').show().delay(5000).fadeOut()
+  }else if(username==''){
+    $('.alert').html('账号不能为空!').addClass('alert-danger').show().delay(5000).fadeOut()
+  } else{
+    $('.alert').html('账号密码错误!').addClass('alert-danger').show().delay(5000).fadeOut()
+  }
+   
+}
+}
+window.onload=function(){
+        document.onkeydown=function(ev){
+            var event=ev ||event
+            if(event.keyCode==13){
+                login()
+            }
+        }
+    }
+  </script>
+</body>
+</html>
